@@ -4,10 +4,10 @@ import camp.xit.jacod.entry.parser.ParserConstants;
 
 public abstract class Expression {
 
-    private final Class<?> entryClass;
-    private final Expression left;
-    private final Expression right;
-    private final int operator;
+    protected final Class<?> entryClass;
+    protected final Expression left;
+    protected final Expression right;
+    protected final int operator;
 
 
     public Expression(Class<?> entryClass) {

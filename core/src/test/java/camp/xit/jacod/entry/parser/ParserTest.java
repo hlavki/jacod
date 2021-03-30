@@ -5,6 +5,8 @@ import camp.xit.jacod.entry.parser.ast.CompileException;
 import camp.xit.jacod.entry.parser.ast.Expression;
 import camp.xit.jacod.model.BusinessPlace;
 import java.io.StringReader;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
@@ -43,6 +45,7 @@ public class ParserTest {
         Parser parser = new Parser(reader);
         Expression expr = parser.parse(BusinessPlace.class);
         assertNotNull(expr);
+        assertThat(expr.toString(), is("order is empty"));
     }
 
 

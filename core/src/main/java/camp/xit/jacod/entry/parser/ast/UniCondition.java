@@ -1,11 +1,6 @@
 package camp.xit.jacod.entry.parser.ast;
 
 import camp.xit.jacod.entry.parser.ParserConstants;
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UniCondition extends Condition {
 
@@ -23,5 +18,11 @@ public class UniCondition extends Condition {
             return objValue == null;
         }
         return result;
+    }
+
+
+    @Override
+    public String toString() {
+        return left.toString() + " " + (operator > -1 ? ParserConstants.tokenImage[operator].replace("\"", "") : "");
     }
 }
