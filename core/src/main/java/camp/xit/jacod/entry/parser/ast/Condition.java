@@ -18,12 +18,18 @@ public abstract class Condition extends Expression {
     }
 
 
+    public Condition(Class<?> entryClass, Expression expr) {
+        super(entryClass, expr);
+        this.getters = compileGetters();
+    }
+
+
     public Property getProperty() {
         return (Property) getLeft();
     }
 
 
-    protected List<Method> compileGetters() {
+    protected final List<Method> compileGetters() {
         String[] properties = getProperty().getProperty().split("\\.");
         Class<?> clazz = getEntryClass();
         List<Method> getters = new ArrayList<>();

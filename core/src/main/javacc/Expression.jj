@@ -19,6 +19,8 @@ TOKEN: {
 |
   <BOOLEAN: "true" | "TRUE" | "false" | "FALSE">
 |
+  <IS: "is"> | <NOT: "not"> | <EMPTY: "empty">
+|
   <PROPERTY_IDENTIFIER: <IDENTIFIER> (<DOT> <IDENTIFIER>)*>
 |
   <STRING_LITERAL: "\"" ( ~["\"","\\","\n","\r"] | "\\" ( ["n","t","b","r","f","\\","\'","\""] | ["0"-"7"] (["0"-"7"])?  | ["0"-"3"] ["0"-"7"] ["0"-"7"] | ( ["\n","\r"] | "\r\n")))* "\"">
@@ -26,8 +28,6 @@ TOKEN: {
   <NUMBER: <DIGIT> (<DIGIT>)* (<DOT> (<DIGIT>)*)? >
 |
   <EQUALS: "="> | <NOT_EQUALS: "!="> | <GT: ">"> | <LT: "<"> | <GTE: ">="> | <LTE: "<="> | <MATCH: "~=">
-|
-  <IS_EMPTY: "is empty">
 |
   <AND: "&"> | <OR: "|">
 |
@@ -76,31 +76,25 @@ Expression andExpression(Class<?> clazz) :
     { return result; }
 }
 
-UniCondition uniCondition(Class<?> clazz) : { Property p; int cmp; } { p = property(clazz) cmp = uniCompare() { return new UniCondition(clazz, p, cmp); } }
-
-BiCondition biCondition(Class<?> clazz) : { Property p; Constant v; int cmp; } { p = property(clazz) cmp = compare() v = value(clazz) { return new BiCondition(clazz, p, v, cmp); } }
-
-
 Condition condition(Class<?> clazz) :
 {
-    Property p; Constant v; int cmp; Condition cond;
+    Property p; Constant v = null; int cmp; Condition cond;
 } {
+    p = property(clazz)
     (
-        p = property(clazz)
-        (
-            cmp = uniCompare() { cond = new UniCondition(clazz, p, cmp); }
-            |
-            cmp = compare() v = value(clazz) { cond = new BiCondition(clazz, p, v, cmp); }
-        )
+        ( cond = unaryCondition(clazz, p) {} )
+        |
+        ( cmp = compare() v = value(clazz) { cond = new BiCondition(clazz, p, v, cmp); } )
     )
     { return cond; }
 }
 
-
-
-
-
-int uniCompare() : { Token t; } { ( t=<IS_EMPTY> ) { return t.kind; } }
+Condition unaryCondition(Class<?> clazz, Property p) :
+{
+    boolean negate = false;
+} {
+    <IS> [<NOT> {negate = true;}] <EMPTY> { return new IsEmptyCondition(clazz, p, negate); }
+}
 
 int compare() : { Token t; } { ( t=<EQUALS> | t=<NOT_EQUALS> | t=<GT> | t=<LT> | t=<GTE> | t=<LTE> | t=<MATCH> ) { return t.kind; } }
 
