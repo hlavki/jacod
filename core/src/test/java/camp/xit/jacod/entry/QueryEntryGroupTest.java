@@ -53,7 +53,7 @@ public class QueryEntryGroupTest {
 
     @Test
     public void notNullExpressionAndExpression(@CsvClient CodelistClient client) throws Exception {
-        EntryGroup group = new QueryEntryGroup(InsuranceProduct.class, "(order is   not  empty) & order > 20");
+        QueryEntryGroup group = new QueryEntryGroup(InsuranceProduct.class, "(order is   not  empty) & order > 20");
         Codelist<InsuranceProduct> filtered = group.getEntries(client.getCodelist(InsuranceProduct.class));
         assertThat(filtered.size(), is(3));
     }

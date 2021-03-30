@@ -17,6 +17,6 @@ public class OrExpression extends LogicalExpression {
 
     @Override
     public String toString() {
-        return super.getLeft() + " OR " + super.getRight();
+        return super.getLeft() + " | " + super.getRight();
     }
 }

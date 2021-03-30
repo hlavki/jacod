@@ -11,7 +11,7 @@ public class AndExpression extends LogicalExpression {
 
     @Override
     public String toString() {
-        return super.getLeft() + " AND " + super.getRight();
+        return super.getLeft() + " & " + super.getRight();
     }
 
 

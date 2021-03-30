@@ -11,6 +11,7 @@ public class IsEmptyCondition extends UnaryCondition {
         this.negate = negate;
     }
 
+
     @Override
     public boolean filter(Object entry) {
         Object objValue = getValue(entry);
@@ -18,5 +19,11 @@ public class IsEmptyCondition extends UnaryCondition {
         boolean collection = Collection.class.isAssignableFrom(returnType);
         boolean result = (collection ? (objValue == null || ((Collection) objValue).isEmpty()) : objValue == null);
         return negate ? !result : result;
+    }
+
+
+    @Override
+    public String toString() {
+        return left.toString() + " is " + (negate ? "not empty" : "empty");
     }
 }

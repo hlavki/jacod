@@ -20,7 +20,6 @@ public class ParserTest {
         assertNotNull(expr);
     }
 
-
     @Test
     public void number() throws Exception {
         StringReader reader = new StringReader("order <= 10.23");
@@ -29,7 +28,6 @@ public class ParserTest {
         assertNotNull(expr);
     }
 
-
     @Test
     public void digit() throws Exception {
         StringReader reader = new StringReader("order <= 2");
@@ -37,7 +35,6 @@ public class ParserTest {
         Expression expr = parser.parse(BusinessPlace.class);
         assertNotNull(expr);
     }
-
 
     @Test
     public void nullExpression() throws Exception {
@@ -48,6 +45,13 @@ public class ParserTest {
         assertThat(expr.toString(), is("order is empty"));
     }
 
+    @Test
+    public void expressionToString() throws ParseException {
+        Parser parser = new Parser(new StringReader("(order is   not  empty) & order > 20"));
+        Expression expr = parser.parse(BusinessPlace.class);
+        assertNotNull(expr);
+        assertThat(expr.toString(), is("(order is not empty) & order > 20"));
+    }
 
     @Test
     public void compileError() throws Exception {
@@ -60,7 +64,6 @@ public class ParserTest {
         }
     }
 
-
     @Test
     public void syntaxError() throws Exception {
         try {
@@ -72,7 +75,6 @@ public class ParserTest {
         }
     }
 
-
     @Test
     public void syntaxError2() throws Exception {
         try {
@@ -83,7 +85,6 @@ public class ParserTest {
         } catch (ParseException e) {
         }
     }
-
 
     @Test
     public void empty() throws Exception {
