@@ -3,12 +3,12 @@
 
     <groupId>camp.xit.jacod</groupId>
     <artifactId>jacod</artifactId>
-    <version>1.1.9</version>
+    <version>1.1.10-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <scm>
         <connection>scm:git:ssh://git@code.xit.camp:xit/common/jacod.git</connection>
-        <tag>v1.1.9</tag>
+        <tag>r1.1</tag>
     </scm>
 
     <properties>
