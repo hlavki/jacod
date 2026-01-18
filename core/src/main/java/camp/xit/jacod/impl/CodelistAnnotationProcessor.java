@@ -51,7 +51,7 @@ public final class CodelistAnnotationProcessor extends AbstractProcessor {
     private static final String SERVICES_PATH = "META-INF/services/" + PROVIDER_INTERFACE;
     private static final String PROVIDER_CLASS = "_" + AdvancedCodelistProvider.class.getSimpleName() + "Impl";
 
-    protected Filer filer;
+    private Filer filer;
     private Messager messager;
     private Elements elementUtils;
     private Types typeUtils;
@@ -99,11 +99,7 @@ public final class CodelistAnnotationProcessor extends AbstractProcessor {
 
                     PackageElement pkgEl = elementUtils.getPackageOf(codelist);
                     String pkg = pkgEl.getQualifiedName().toString();
-                    Set<TypeElement> pkgEls = result.get(pkg);
-                    if (pkgEls == null) {
-                        pkgEls = new HashSet<>();
-                        result.put(pkg, pkgEls);
-                    }
+                    Set<TypeElement> pkgEls = result.computeIfAbsent(pkg, k -> new HashSet<>());
                     pkgEls.add(codelist);
                 } catch (ProcessingException e) {
                     printError(null, e.getMessage());
